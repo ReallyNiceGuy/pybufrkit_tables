@@ -62,9 +62,17 @@ def sequence_to_tableD(the_path):
     chars_to_remove = re.compile('[\t\n\] ["]')
     tableD = {}
     with open(the_path / 'sequence.def') as f:
-        for row in f:
-            the_id, the_list = re.sub(chars_to_remove, '', row).split('=')
-            tableD[the_id] = the_list.split(",")
+        try:
+            definition = []
+            for row in f:
+                definition.append(row)
+                if ']' in row:
+                    the_id, the_list = re.sub(chars_to_remove, '', "".join(definition)).split('=')
+                    tableD[the_id] = the_list.split(",")
+                    definition = []
+        except Exception:
+            print(row)
+            raise
     return tableD
 
 
