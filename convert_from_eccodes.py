@@ -21,10 +21,13 @@ def float_or_int(value):
     return f
 
 def parse_path(the_path):
-    subcentre = the_path.stem
-    centre = the_path.parent.stem
-    version = the_path.parent.parent.stem
-    return (version, '0' if centre == 'wmo' else centre , subcentre)
+    a = the_path.stem
+    b = the_path.parent.stem
+    c = the_path.parent.parent.stem
+    if b == 'wmo':
+        return (a, '0', '0')
+    # centre, subcentre, version
+    return (b , c, a)
 
 
 def elements_to_tableB(the_path):
@@ -79,9 +82,16 @@ def sequence_to_tableD(the_path):
 def codetable_to_list(the_file):
     result = []
     with open(the_file) as f:
-        for row in f:
-            value, _, desc = row.strip().split(' ', maxsplit=2)
-            result.append([value, desc])
+        try:
+            for row in f:
+                definition = row.strip().split(' ', maxsplit=2)
+                if len(definition) == 3:
+                    result.append(definition[1:3])
+                else:
+                    result.append([definition[1], ""])
+        except Exception:
+            print(the_file, row)
+            raise
     return result
 
 
