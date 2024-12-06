@@ -71,7 +71,7 @@ def sequence_to_tableD(the_path):
                 definition.append(row)
                 if ']' in row:
                     the_id, the_list = re.sub(chars_to_remove, '', "".join(definition)).split('=')
-                    tableD[the_id] = the_list.split(",")
+                    tableD[the_id] = ["", the_list.split(",")]
                     definition = []
         except Exception:
             print(row)
@@ -114,9 +114,9 @@ if __name__ == "__main__":
     output_path = Path(sys.argv[2]) / f'{centre}_{subcentre}' / version
     output_path.mkdir(parents=True, exist_ok=True)
 
-    with open(output_path / 'tableB.json', 'w') as f:
+    with open(output_path / 'TableB.json', 'w') as f:
         json.dump(elements_to_tableB(input_path), f)
-    with open(output_path / 'tableD.json', 'w') as f:
+    with open(output_path / 'TableD.json', 'w') as f:
         json.dump(sequence_to_tableD(input_path), f)
     with open(output_path / 'code_and_flag.json', 'w') as f:
         json.dump(codetables_to_code_and_flag(input_path), f)
