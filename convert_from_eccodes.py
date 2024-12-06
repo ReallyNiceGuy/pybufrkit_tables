@@ -46,8 +46,14 @@ def elements_to_tableB(the_path):
     with open(the_path / 'element.table', newline='') as csvfile:
         reader = csv.DictReader(csvfile,  fieldnames=fieldnames, delimiter='|')
 
-        for row in reader:
-            tableB[row['id']] = [row['desc'], row['type'], int(row['exponent']), float_or_int(row['offset']), int(row['size']), row['crex_type'], int(row['crex_exponent']), int(row['crex_size'])]
+        try:
+            for row in reader:
+                if row['id'] == '#code':
+                    continue
+                tableB[row['id']] = [row['desc'], row['type'], int(row['exponent']), float_or_int(row['offset']), int(row['size']), row['crex_type'], int(row['crex_exponent']), int(row['crex_size'])]
+        except Exception:
+            print(row)
+            raise
 
     return tableB
 
