@@ -26,8 +26,8 @@ def parse_path(the_path):
     c = the_path.parent.parent.stem
     if b == 'wmo':
         return (a, '0', '0')
-    # centre, subcentre, version
-    return (b , c, a)
+    # version, centre, subcentre
+    return (c, b, a)
 
 
 def elements_to_tableB(the_path):
